@@ -1,0 +1,6 @@
+@use './colors.scss' as *;
+
+.chat {
+  background-color: $color-chat-bg;
+  width: inherit;
+}

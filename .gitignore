@@ -2,3 +2,4 @@ dist
 node_modules
 database.json
 members.json
+channels.json

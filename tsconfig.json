@@ -6,7 +6,10 @@
     "sourceMap": true,
     "module": "commonJS",
     "target": "es6",
+    "lib": ["es6", "dom"],
     "forceConsistentCasingInFileNames": true,
-    "allowJs": true
+    "allowJs": true,
+    "jsx": "react",
+    "moduleResolution": "Node"
   }
 }

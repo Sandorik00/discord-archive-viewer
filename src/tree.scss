@@ -1,0 +1,7 @@
+@use './colors.scss' as *;
+
+.tree {
+  background-color: $color-channels-bg;
+  min-width: 20%;
+  min-height: 100%;
+}
