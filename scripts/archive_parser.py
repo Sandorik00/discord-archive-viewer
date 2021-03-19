@@ -49,3 +49,32 @@ with open(os.path.join('.', 'database.json')) as f:
         print(curChan)
 
 stream.close()
+
+membersDict = {}
+membersType = set(["username", "bot", "displayAvatarURL"])
+
+with open(os.path.join('.', 'members.json')) as f:
+    for line in f:
+        obj = json.loads(line)
+        id = obj["id"]
+        membersDict[id] = {}
+        for k in list(obj.keys()):
+            if k in membersType:
+                membersDict[id][k] = obj[k]
+    
+open(path.join('.', 'membersDict.json')).write(json.dumps(membersDict))
+print('\n\n')
+
+channelsDict = {}
+channelsType = set(["type", "name", "rawPosition", "parentID", "topic", "nsfw"])
+
+with open(os.path.join('.', 'channels.json')) as f:
+    for line in f:
+        obj = json.loads(line)
+        id = obj["id"]
+        channelsDict[id] = {}
+        for k in list(obj.keys()):
+            if k in channelsType:
+                channelsDict[id][k] = obj[k]
+    
+open(path.join('.', 'channelsDict.json')).write(json.dumps(channelsDict))
