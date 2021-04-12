@@ -1,0 +1,11 @@
+.message {
+  min-height: 20px;
+  width: inherit;
+  margin: 5px 0;
+  display: flex;
+  align-items: center;
+
+  &:hover {
+    background-color: #32353B;
+  }
+}

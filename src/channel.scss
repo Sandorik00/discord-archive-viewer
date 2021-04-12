@@ -1,0 +1,13 @@
+.channel {
+  height: 30px;
+  width: inherit;
+  margin: 5px 0;
+  display: flex;
+  justify-content: left;
+  align-items: center;
+  text-indent: 10%;
+
+  &:hover {
+    background-color: #36393f;
+  }
+}
