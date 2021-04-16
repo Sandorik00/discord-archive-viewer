@@ -6,13 +6,14 @@ import os
 from os import path
 from math import floor
 
-CHANNEL_DIRECTORY = path.join('.', 'dist', 'channels')
+DATA_DIR = path.join('.', 'data')
+CHANNEL_DIR = path.join(DATA_DIR, 'channels')
 chanCounter = dict()
 curChan: str = ''
 
 
-if not path.isdir(CHANNEL_DIRECTORY):
-    os.mkdir(CHANNEL_DIRECTORY)
+if not path.isdir(CHANNEL_DIR):
+    os.makedirs(CHANNEL_DIR)
 
 stream: TextIOWrapper
 
@@ -24,7 +25,7 @@ def isChanOverflowed(channelID: str):
 
 def choose_and_open(channelID: str):
     suffix = floor(chanCounter.get(channelID) / 1000)
-    return open(path.join(CHANNEL_DIRECTORY, channelID + '_' + str(suffix) + '.json'), 'a')
+    return open(path.join(CHANNEL_DIR, channelID + '_' + str(suffix) + '.json'), 'a')
 
 def write_chan(id: str, data):
     global stream
@@ -50,31 +51,23 @@ with open(os.path.join('.', 'database.json')) as f:
 
 stream.close()
 
-membersDict = {}
+def makeDictAndWrite(fileName: str, filterSet: set):
+    dict = {}
+    with open(path.join('.', fileName + '.json')) as f:
+        for line in f:
+            obj = json.loads(line)
+            id = obj["id"]
+            dict[id] = {}
+            for k in list(obj.keys()):
+                if k in filterSet:
+                    dict[id][k] = obj[k]
+                
+    open(path.join(DATA_DIR, fileName + 'Dict.json'), 'w').write(json.dumps(dict))
+
 membersType = set(["username", "bot", "displayAvatarURL"])
+makeDictAndWrite('members', membersType)
 
-with open(os.path.join('.', 'members.json')) as f:
-    for line in f:
-        obj = json.loads(line)
-        id = obj["id"]
-        membersDict[id] = {}
-        for k in list(obj.keys()):
-            if k in membersType:
-                membersDict[id][k] = obj[k]
-    
-open(path.join('.', 'membersDict.json')).write(json.dumps(membersDict))
-print('\n\n')
-
-channelsDict = {}
 channelsType = set(["type", "name", "rawPosition", "parentID", "topic", "nsfw"])
+makeDictAndWrite('channels', channelsType)
 
-with open(os.path.join('.', 'channels.json')) as f:
-    for line in f:
-        obj = json.loads(line)
-        id = obj["id"]
-        channelsDict[id] = {}
-        for k in list(obj.keys()):
-            if k in channelsType:
-                channelsDict[id][k] = obj[k]
-    
-open(path.join('.', 'channelsDict.json')).write(json.dumps(channelsDict))
+

@@ -1,5 +1,6 @@
 dist
 node_modules
+data
 database.json
 members.json
 channels.json
