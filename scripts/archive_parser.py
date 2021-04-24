@@ -39,7 +39,7 @@ def write_chan(id: str, data):
         stream.close()
         stream = choose_and_open(data['channelID'])
     chan: str = data['channelID']
-    stream.write(json.dumps(data) + '\n')
+    stream.write(json.dumps(data, ensure_ascii=False) + '\n')
     return chan
 
 
@@ -62,7 +62,7 @@ def makeDictAndWrite(fileName: str, filterSet: set):
                 if k in filterSet:
                     dict[id][k] = obj[k]
                 
-    open(path.join(DATA_DIR, fileName + 'Dict.json'), 'w').write(json.dumps(dict))
+    open(path.join(DATA_DIR, fileName + 'Dict.json'), 'w').write(json.dumps(dict, ensure_ascii=False))
 
 membersType = set(["username", "bot", "displayAvatarURL"])
 makeDictAndWrite('members', membersType)
