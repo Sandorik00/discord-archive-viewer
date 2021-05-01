@@ -39,14 +39,21 @@ def write_chan(id: str, data):
         stream.close()
         stream = choose_and_open(data['channelID'])
     chan: str = data['channelID']
+    dict = {}
+
     stream.write(json.dumps(data, ensure_ascii=False) + '\n')
     return chan
 
+messageFilter = set(["channelID", "content", "authorID", "embeds", "attachments", "createdTimestamp"])
 
 with open(os.path.join('.', 'database.json')) as f:
     for line in f:
+        dict = {}
         obj = json.loads(line)
-        curChan = write_chan(curChan, obj)
+        for k in list(obj.keys()):
+            if k in messageFilter:
+                dict[k] = obj[k]
+        curChan = write_chan(curChan, dict)
         print(curChan)
 
 stream.close()

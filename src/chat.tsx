@@ -18,6 +18,19 @@ export class Chat extends React.Component {
         <ChatMessage></ChatMessage>
         <ChatMessage></ChatMessage>
         <ChatMessage></ChatMessage>
+        <PageControls></PageControls>
+      </div>
+    )
+  }
+}
+
+class PageControls extends React.Component {
+  render() {
+    return(
+      <div className="chatFooter">
+        <div className="pageControls">
+          <button>BUTTONS</button>
+        </div>
       </div>
     )
   }
