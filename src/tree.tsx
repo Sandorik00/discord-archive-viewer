@@ -5,7 +5,8 @@ import './tree.scss';
 export class ChannelsTree extends React.Component {
   render() {
     return (
-      <div className="tree">
+      <div className="treeWrapper">
+        <div className="tree">
         CHANNELS
         <ChannelButton></ChannelButton>
         <ChannelButton></ChannelButton>
@@ -18,6 +19,7 @@ export class ChannelsTree extends React.Component {
         <ChannelButton></ChannelButton>
         <ChannelButton></ChannelButton>
         <ChannelButton></ChannelButton>
+      </div>
       </div>
     )
   }

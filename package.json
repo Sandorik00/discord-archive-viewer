@@ -4,9 +4,10 @@
   "description": "Viewer for archived discord servers",
   "main": "dist/main.js",
   "scripts": {
-    "build": "webpack",
+    "build": "webpack --mode=production",
     "clear": "rm -rf dist",
-    "dataRM": "rm -rf data"
+    "dataRM": "rm -rf data",
+    "watch": "webpack --watch --mode=development"
   },
   "author": "Sandorik00",
   "license": "MIT",

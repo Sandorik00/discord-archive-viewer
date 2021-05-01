@@ -5,7 +5,8 @@ import './chat.scss';
 export class Chat extends React.Component {
   render() {
     return (
-      <div className="chat">
+      <div className="chatWrapper">
+        <div className="chat">
         CHAT
         <ChatMessage></ChatMessage>
         <ChatMessage></ChatMessage>
@@ -19,6 +20,7 @@ export class Chat extends React.Component {
         <ChatMessage></ChatMessage>
         <ChatMessage></ChatMessage>
         <PageControls></PageControls>
+      </div>
       </div>
     )
   }
