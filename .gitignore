@@ -6,3 +6,4 @@ members.json
 channels.json
 test
 token.txt
+scripts/__pycache__/
