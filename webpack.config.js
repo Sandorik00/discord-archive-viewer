@@ -12,13 +12,19 @@ module.exports = {
     }),
   ],
   devtool: 'inline-source-map',
+  devServer: {
+    contentBase: false,
+    compress: true,
+    port: 8080,
+    hot: true
+  },
   module: {
     rules: [
       {
         test: /\.(?:js|ts)x?$/,
         use: 'ts-loader',
         include: path.join(__dirname, 'src'),
-        exclude: /node_modules/,
+        exclude: [/node_modules/, /src\/backend/],
       },
       {
         test: /\.s[ac]ss$/i,
@@ -36,6 +42,7 @@ module.exports = {
   },
   resolve: {
     extensions: ['.tsx', '.ts', '.js', 'jsx'],
+    modules: ['node_modules'],
   },
   output: {
     filename: 'bundle.js',

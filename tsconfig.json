@@ -1,5 +1,5 @@
 {
-  "include": ["src"],
+  "include": ["src", "backend"],
   "compilerOptions": {
     "outDir": "dist",
     "strict": true,
@@ -9,7 +9,7 @@
     "lib": ["es6", "dom"],
     "forceConsistentCasingInFileNames": true,
     "allowJs": true,
-    "jsx": "react",
+    "jsx": "react-jsx",
     "moduleResolution": "Node"
   }
 }
