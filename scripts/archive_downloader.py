@@ -1,7 +1,6 @@
 #!/usr/bin/python3
 
 from datetime import datetime
-import re
 from typing import List
 import discord
 import argparse
@@ -9,7 +8,7 @@ import time
 from os import path
 import json
 from work_with_db import *
-import pickle
+import time
 
 def main():
 
@@ -66,6 +65,7 @@ def main():
             for chan in chans:
                 id = chan.id
                 dict_chan: dict = json.loads(json.dumps(parseObj(chan, channelsType), ensure_ascii=False, default=replacer))
+                dict_chan["discordID"] = str(id)
                 row_id = insert_data(conn, 'channels', dict_chan)
                 if isinstance(chan, discord.TextChannel):
                     read_history_perm = chan.permissions_for(clientMember).read_message_history
@@ -105,12 +105,15 @@ def main():
         for m in messageList:
             d = {}
             messageFilter = set(
-                ["content", "created_at", "reference"])
+                ["content", "reference"])
             for k in dir(m):    
                 if k in messageFilter:
                     d[k] = getattr(m, k)
                 elif k == "author":
                     d[k + "ID"] = getattr(getattr(m, k), "id")
+                elif k == "created_at":
+                    stamp: datetime = getattr(m, k)
+                    d[k] = stamp.replace(microsecond=0).timestamp()
                 elif k == "id":
                     d["messageID"] = getattr(m, k)
                 elif k == "embeds" or k == "attachments":

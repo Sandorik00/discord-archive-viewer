@@ -27,7 +27,8 @@ def create_table(conn: sqlite3.Connection, mode: Literal["channels", "messages",
       position integer NOT NULL,
       category_id text,
       topic text,
-      nsfw boolean
+      nsfw boolean,
+      discordID text NOT NULL
       ); """,
     "messages": """ CREATE TABLE IF NOT EXISTS messages(
       id integer PRIMARY KEY,
@@ -58,8 +59,8 @@ def create_table(conn: sqlite3.Connection, mode: Literal["channels", "messages",
 def insert_data(conn: sqlite3.Connection, mode: Literal["channels", "messages", "users"], data):
   sql = None
   sql = {
-    "channels": """ INSERT INTO channels(name,type,position,category_id,topic,nsfw)
-      VALUES(:name,:type,:position,:category_id,:topic,:nsfw) """,
+    "channels": """ INSERT INTO channels(name,type,position,category_id,topic,nsfw,discordID)
+      VALUES(:name,:type,:position,:category_id,:topic,:nsfw,:discordID) """,
     "messages": """ INSERT INTO messages(channelID,authorID,messageID,content,embeds,attachments,reference,created_at)
       VALUES(:channelID,:authorID,:messageID,:content,:embeds,:attachments,:reference,:created_at) """,
     "users": """ INSERT INTO users(avatar_url,bot,name,discordID)
@@ -76,15 +77,3 @@ def insert_data(conn: sqlite3.Connection, mode: Literal["channels", "messages", 
     print(e)
   finally:
     return cur.lastrowid
-
-    
-
-
-""" conn = connect_to_db(data_folder)
-create_table(conn, 'channels')
-create_table(conn, 'messages')
-create_table(conn, 'users')
-conn.commit()
-chan = insert_data(conn, 'channels', tuple(["чат", "text", 10, "65266262566256", "болтовня", False]))
-insert_data(conn, 'messages', tuple([chan, "37683837383", "gfagfgag", None, None, "12.06.19"]))
-conn.close() """
