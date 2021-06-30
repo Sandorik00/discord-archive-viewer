@@ -5,7 +5,8 @@ export type TChannel = {
     position: number,
     category_id: string | null,
     topic: string | null,
-    nsfw: boolean | null
+    nsfw: boolean | null,
+    discordID: string
 }
 
 export type TMessage = {
