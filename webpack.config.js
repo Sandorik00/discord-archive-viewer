@@ -15,8 +15,7 @@ module.exports = {
   devServer: {
     contentBase: false,
     compress: true,
-    port: 8080,
-    hot: true
+    port: 8080
   },
   module: {
     rules: [

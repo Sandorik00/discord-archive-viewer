@@ -9,11 +9,13 @@
     "dataRM": "rm -rf data",
     "watch": "webpack --watch --mode=development",
     "serve": "webpack serve --mode=development",
-    "release": "webpack --mode=production"
+    "release": "webpack --mode=production",
+    "back": "tsc --watch backend/back_db.ts"
   },
   "author": "Sandorik00",
   "license": "MIT",
   "dependencies": {
+    "classcat": "^5.0.3",
     "express": "^4.17.1",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
