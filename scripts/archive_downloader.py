@@ -21,7 +21,10 @@ def main():
     parser.add_argument('--bot-token-file', '-bt')
     cli_args = parser.parse_args()
 
-    DATA_DIR = path.join('.', 'test')
+    data_folder = path.join(os.getcwd(), 'data')
+
+    if not path.isdir(data_folder):
+        os.mkdir(data_folder)
 
     allOfTheMessagesIMeanALLOfThem = {}
     allOfTheChannels = {}

@@ -4,8 +4,6 @@ import os
 from sqlite3.dbapi2 import Error
 from typing import Literal, Tuple
 
-data_folder = path.join(os.getcwd(), 'data')
-
 def connect_to_db(file_path: str):
   conn = None
 
