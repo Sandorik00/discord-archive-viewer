@@ -27,12 +27,19 @@ export class Chat extends React.Component<IChatProps, IChatState> {
     this.readyMessages = [];
     this.readyMembers = [];
 
+    this.getReadyMessages = this.getReadyMessages.bind(this);
+
     this.state = { ready: false, mesToRender: [] };
   }
 
   async componentDidMount() {
     this.readyMembers = await this.props.members;
-    this.setState({ ready: true });
+    await this.getReadyMessages();
+    let messageElements = this.readyMessages?.map((v) => {
+      return <ChatMessage key={v.id} content={v.content ?? ''}></ChatMessage>;
+    });
+    console.log(messageElements?.length);
+    this.setState({ mesToRender: messageElements ?? [] });
   }
 
   async getReadyMessages() {
@@ -41,19 +48,20 @@ export class Chat extends React.Component<IChatProps, IChatState> {
   }
 
   componentDidUpdate(prevProps: IChatProps) {
-    if (this.props.channelID !== prevProps.channelID || this.props.messageID !== prevProps.messageID) {
+    if (
+      this.props.channelID !== prevProps.channelID ||
+      this.props.messageID !== prevProps.messageID
+    ) {
       this.getReadyMessages();
       let messageElements = this.readyMessages?.map((v) => {
         return <ChatMessage key={v.id} content={v.content ?? ''}></ChatMessage>;
       });
       console.log(messageElements?.length);
-      this.setState( { mesToRender: messageElements ?? [] } );
+      this.setState({ mesToRender: messageElements ?? [] });
     }
   }
 
   render() {
-
-
     return (
       <div className='chatWrapper'>
         <div className='chat'>
