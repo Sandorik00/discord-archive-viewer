@@ -1,13 +1,15 @@
 @use './colors.scss' as *;
 
+$tree-width: 15%;
+
 .tree {
   background-color: $color-channels-bg;
-  min-height: 100%;
-  width: 20%;
+  height: 100%;
+  width: $tree-width;
   overflow-y: auto;
   position: fixed;
 }
 
 .treeWrapper {
-  min-width: 20%;
+  min-width: $tree-width;
 }

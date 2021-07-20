@@ -1,11 +1,29 @@
 import * as React from 'react';
 import './channel.scss';
+import cc from 'classcat';
 
-export class ChannelButton extends React.Component {
+interface IChanButtonProps {
+  title: string;
+  type: string;
+  trueID: string;
+  updateTreeState(data: string): void;
+}
+
+export class ChannelButton extends React.Component<IChanButtonProps> {
+  constructor(props: IChanButtonProps) {
+    super(props);
+
+    this.activeChanChange = this.activeChanChange.bind(this);
+  }
+
+  activeChanChange(e: any) {
+    this.props.updateTreeState(this.props.trueID);
+  }
+
   render() {
     return (
-      <div className="channel">
-        TEXT_TEXT_TEXT
+      <div className={cc(["channel", this.props.type])} onClick={this.activeChanChange}>
+        {this.props.title}
       </div>
     )
   }

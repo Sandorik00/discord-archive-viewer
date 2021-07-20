@@ -9,6 +9,18 @@ const conn = new sqlite.Database(paths.join(process.cwd(), 'data', 'server.db'))
 const app = express();
 const port = 8000;
 
+app.use((req, res, next) => {
+  res.setHeader('Access-Control-Allow-Origin', 'http://localhost:8080');
+
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+
+  res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
+
+  res.setHeader('Access-Control-Allow-Credentials', "true");
+
+  next();
+})
+
 app.get('/channels', async (req, res) => {
   let chans = await getChannels();
   res.json(chans);
@@ -19,8 +31,8 @@ app.get('/members', async (req, res) => {
   res.json(mems);
 })
 
-app.get('/channels/:channel/:date', async (req, res) => {
-  let messages = await getMessagesByDate(req.params.channel, req.params.date);
+app.get('/channels/:channel/:id', async (req, res) => {
+  let messages = await getMessagesById(req.params.channel, req.params.id);
   res.json(messages);
 })
 
@@ -45,7 +57,7 @@ function databaseRequest<T>(sql: string, values?: string[]) {
 }
 
 async function getChannels() {
-  let sql = 'SELECT * FROM channels;'
+  let sql = 'SELECT * FROM channels ORDER BY category_id, position;'
   const result = await databaseRequest<TChannel[]>(sql);
   return result ?? null;
 }
@@ -56,9 +68,9 @@ async function getMembers() {
   return result ?? null;
 }
 
-async function getMessagesByDate(chan: string, timestamp: string) {
-  let sql = 'SELECT messages.* FROM messages JOIN channels ON messages.channelID = channels.id WHERE channels.discordID = ? AND created_at >= ? ORDER BY created_at LIMIT 100;';
-  const result = await databaseRequest<TMessage[]>(sql, [chan, timestamp]);
+async function getMessagesById(chan: string, id: string) {
+  let sql = 'SELECT messages.* FROM messages JOIN channels ON messages.channelID = channels.id WHERE channels.discordID = ? AND messages.id > ? ORDER BY messages.id LIMIT 100;';
+  const result = await databaseRequest<TMessage[]>(sql, [chan, id]);
   return result ?? null;
 }
 

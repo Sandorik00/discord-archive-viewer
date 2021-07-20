@@ -1,49 +1,79 @@
 import * as React from 'react';
 import { ChatMessage } from './message';
 import './chat.scss';
+import { fetchMessages } from './database_controller';
+import { TMember, TMessage } from './global';
 
-export class Chat extends React.Component {
-  //messagesText: string;
+interface IChatProps {
+  channelID: string;
+  messageID: string;
+  members: Promise<TMember[]>;
+}
 
-  constructor(props: {}) {
+interface IChatState {
+  ready: boolean;
+  mesToRender: JSX.Element[];
+}
+
+export class Chat extends React.Component<IChatProps, IChatState> {
+  messages: Promise<TMessage[]> | undefined;
+  readyMessages: TMessage[] | undefined;
+  readyMembers: TMember[];
+
+  constructor(props: IChatProps) {
     super(props);
-    let a = fetch('http://127.0.0.1:5500/data/channels/500980711466074123_0.json').then(res => res.text());
-    a.then(data => console.log(JSON.parse('[' + data.replace(/\n/mg, ',\n',) + ']')));
-    //a.then(data => console.log('[' + data.replace(/\n/mg, ',\n',) + ']'));
+
+    this.messages = undefined;
+    this.readyMessages = [];
+    this.readyMembers = [];
+
+    this.state = { ready: false, mesToRender: [] };
   }
 
+  async componentDidMount() {
+    this.readyMembers = await this.props.members;
+    this.setState({ ready: true });
+  }
+
+  async getReadyMessages() {
+    this.messages = fetchMessages(this.props.channelID, this.props.messageID);
+    this.readyMessages = await this.messages;
+  }
+
+  componentDidUpdate(prevProps: IChatProps) {
+    if (this.props.channelID !== prevProps.channelID || this.props.messageID !== prevProps.messageID) {
+      this.getReadyMessages();
+      let messageElements = this.readyMessages?.map((v) => {
+        return <ChatMessage key={v.id} content={v.content ?? ''}></ChatMessage>;
+      });
+      console.log(messageElements?.length);
+      this.setState( { mesToRender: messageElements ?? [] } );
+    }
+  }
 
   render() {
+
+
     return (
-      <div className="chatWrapper">
-        <div className="chat">
-        CHAT
-        <ChatMessage></ChatMessage>
-        <ChatMessage></ChatMessage>
-        <ChatMessage></ChatMessage>
-        <ChatMessage></ChatMessage>
-        <ChatMessage></ChatMessage>
-        <ChatMessage></ChatMessage>
-        <ChatMessage></ChatMessage>
-        <ChatMessage></ChatMessage>
-        <ChatMessage></ChatMessage>
-        <ChatMessage></ChatMessage>
-        <ChatMessage></ChatMessage>
-        <PageControls></PageControls>
+      <div className='chatWrapper'>
+        <div className='chat'>
+          CHAT
+          {this.state.mesToRender ?? null}
+          <PageControls></PageControls>
+        </div>
       </div>
-      </div>
-    )
+    );
   }
 }
 
 class PageControls extends React.Component {
   render() {
-    return(
-      <div className="chatFooter">
-        <div className="pageControls">
+    return (
+      <div className='chatFooter'>
+        <div className='pageControls'>
           <button>BUTTONS</button>
         </div>
       </div>
-    )
+    );
   }
 }

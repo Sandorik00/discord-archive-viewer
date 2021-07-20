@@ -2,7 +2,11 @@
 
 .chat {
   background-color: $color-chat-bg;
+  min-width: 85%;
   width: inherit;
+  position: fixed;
+  overflow-y: auto;
+  height: 100%;
 }
 
 .chatFooter {

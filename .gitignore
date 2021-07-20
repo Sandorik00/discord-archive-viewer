@@ -7,3 +7,4 @@ channels.json
 test
 token.txt
 scripts/__pycache__/
+backend/*.js
