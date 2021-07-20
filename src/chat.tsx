@@ -47,12 +47,12 @@ export class Chat extends React.Component<IChatProps, IChatState> {
     this.readyMessages = await this.messages;
   }
 
-  componentDidUpdate(prevProps: IChatProps) {
+  async componentDidUpdate(prevProps: IChatProps) {
     if (
       this.props.channelID !== prevProps.channelID ||
       this.props.messageID !== prevProps.messageID
     ) {
-      this.getReadyMessages();
+      await this.getReadyMessages();
       let messageElements = this.readyMessages?.map((v) => {
         return <ChatMessage key={v.id} content={v.content ?? ''}></ChatMessage>;
       });
